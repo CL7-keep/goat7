@@ -218,22 +218,45 @@ img{display:block;max-width:100%;height:auto}
 .f{padding:9px 18px;border-radius:8px;border:1.5px solid var(--line);font-size:12.5px;font-weight:700;background:rgba(255,255,255,0.82);backdrop-filter:blur(8px);color:var(--ink-soft);transition:all .2s ease}
 .f:hover{color:var(--ink);border-color:var(--accent)}
 .f.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.cc{border:1.5px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(255,255,255,0.72);backdrop-filter:blur(14px);transition:all .28s cubic-bezier(.2,.8,.2,1);cursor:pointer;position:relative}
-.cc:hover{transform:translateY(-6px);box-shadow:-6px 8px 0 var(--ink)}
-.cc:hover .cc-img img{transform:scale(1.06)}
+/* ===== Lenticular Carousel ===== */
+.cert-carousel{position:relative;perspective:1800px}
+.cert-scroll{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:24px 8px 40px;scrollbar-width:thin;scroll-behavior:smooth}
+.cert-scroll::-webkit-scrollbar{height:6px}
+.cert-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.15);border-radius:3px}
+.cert-scroll::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.cert-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:rgba(255,255,255,.85);backdrop-filter:blur(8px);color:var(--ink);font-size:20px;font-weight:900;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:all .2s ease;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.cert-nav:hover{background:var(--ink);color:#fff;transform:translateY(-50%) scale(1.08)}
+.cert-nav.prev{left:-8px}
+.cert-nav.next{right:-8px}
+.cc{flex:0 0 300px;scroll-snap-align:center;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.cc:hover{z-index:6}
+.cc .cc-face{position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,.2,.2,1);border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.8);backdrop-filter:blur(16px);box-shadow:0 10px 34px rgba(0,0,0,.14)}
+.cc.flipped .cc-face{transform:rotateY(180deg)}
+.cc-front,.cc-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.cc-back{position:absolute;inset:0;transform:rotateY(180deg);padding:22px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,rgba(255,255,255,.96),rgba(245,245,245,.96))}
 .cc-img{position:relative;aspect-ratio:4/3;overflow:hidden;background:#F2F2F2;border-bottom:1.5px solid var(--line)}
-.cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.cc-mask{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,0.75) 100%);display:flex;align-items:flex-end;justify-content:space-between;padding:16px;opacity:0;transition:opacity .25s ease}
+.cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.cc:hover .cc-img img{transform:scale(1.08)}
+.cc-mask{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,0.78) 100%);display:flex;align-items:flex-end;justify-content:space-between;padding:16px;opacity:0;transition:opacity .3s ease}
 .cc:hover .cc-mask{opacity:1}
-.cc-mask-left{color:#fff;font-size:13px;font-weight:700;padding:6px 12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);backdrop-filter:blur(6px);border-radius:4px}
-.cc-tier{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,0.88);color:var(--accent);font-weight:800}
-.cc-body{padding:18px 18px 20px 18px}
-.cc-name{font-size:16px;font-weight:900;line-height:1.3;margin-bottom:6px;color:var(--ink)}
-.cc-issuer{font-size:13px;color:var(--accent);font-weight:700;margin-bottom:12px}
-.cc-foot{padding-top:12px;border-top:1.2px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center}
+.cc-mask-left{color:#fff;font-size:13px;font-weight:700;padding:6px 12px;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);border-radius:4px}
+.cc-tier{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,0.9);color:var(--accent);font-weight:800}
+.cc-body{padding:16px 18px 18px 18px}
+.cc-name{font-size:16px;font-weight:900;line-height:1.3;margin-bottom:5px;color:var(--ink)}
+.cc-issuer{font-size:12.5px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.cc-foot{padding-top:10px;border-top:1.2px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center}
 .cc-date{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--ink-mute);font-weight:700}
 .cc-tag{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1.5px;font-weight:800}
+.cc-back-name{font-size:17px;font-weight:900;line-height:1.35;color:var(--ink);margin-bottom:6px}
+.cc-back-issuer{font-size:12.5px;color:var(--accent);font-weight:700;margin-bottom:14px}
+.cc-back-desc{font-size:13px;line-height:1.65;color:var(--ink-soft);margin-bottom:14px;flex:1;overflow:auto}
+.cc-back-meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);line-height:1.8;border-top:1.2px solid var(--line-soft);padding-top:10px}
+.cc-back-meta b{color:var(--ink);font-weight:800}
+.cc-flip-hint{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--ink-mute);background:rgba(255,255,255,.85);padding:4px 8px;border-radius:5px;z-index:2}
+.cc-back .cc-flip-hint{top:12px;right:12px}
+.cc-view-btn{display:inline-block;margin-top:12px;padding:8px 14px;background:var(--ink);color:#fff;border-radius:6px;font-size:12px;font-weight:700;text-align:center;cursor:pointer}
+.cc-view-btn:hover{opacity:.85}
+/* ===== End Lenticular Carousel ===== */
 
 /* Lightbox */
 .lb{position:fixed;inset:0;z-index:100;display:none;background:rgba(0,0,0,0.72);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:32px 24px;animation:f .22s ease}
@@ -359,7 +382,9 @@ img{display:block;max-width:100%;height:auto}
   .tl-item{ padding-left: 16px; }
   .tl-item::before, .tl-item::after{ left: -38px; width: 16px; height: 16px; }
   .tl-role{ font-size: 18px; }
-  .cert-grid{ grid-template-columns: 1fr; gap: 16px; }
+  .cert-scroll{ gap: 16px; padding: 16px 4px 28px; }
+  .cc{ flex: 0 0 260px; }
+  .cert-nav{ display:none; }
   .contact-grid{ overflow: visible; }
   .contact-left{ padding: 28px 22px; }
   .form{ padding: 28px 22px; }
@@ -395,7 +420,7 @@ body{font-weight:400;line-height:1.75;letter-spacing:.01em}
 .hero-bg{opacity:0;filter:grayscale(1) contrast(1.08) brightness(1.06)}
 .hero-bg.on{opacity:.72}
 /* file:// 双击直开时的静态背景降级（WebGL 纹理受浏览器安全限制） */
-body.bg-static .hero-bg{opacity:.72;background:url('assets/bg-wildflowers.jpg') center/cover no-repeat}
+body.bg-static .hero-bg{opacity:.72;background:url('bg-wildflowers.jpg') center/cover no-repeat}
 body.bg-static .hero-bg canvas{display:none}
 
 /* 导航：更通透 */
@@ -448,7 +473,7 @@ body.bg-static .hero-bg canvas{display:none}
 .filters .f{background:var(--glass);backdrop-filter:var(--glass-blur);border-color:rgba(0,0,0,.08);font-weight:500}
 .f.on{background:#1a1a1a;border-color:#1a1a1a}
 .cc{border-radius:7px}
-.cc:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.12)}
+.cc:hover .cc-face{box-shadow:0 16px 44px rgba(0,0,0,.18)}
 .cc-img{background:rgba(0,0,0,.03)}
 .cc-name{font-size:15px}.cc-issuer,.cc-tag{color:#666}
 
@@ -642,8 +667,8 @@ body.bg-static .hero-bg canvas{display:none}
     </div>
     <div class="hobby-grid rev">
       <div class="hobby-video">
-        <a href="assets/game-demo.mp4" class="js-vid" style="display:block;position:relative;">
-          <img src="assets/game-cover.jpg" alt="Kobe Tank 坦克对战游戏画面" style="width:100%;display:block;border-radius:12px;" loading="lazy" />
+        <a href="game-demo.mp4" class="js-vid" style="display:block;position:relative;">
+          <img src="game-cover.jpg" alt="Kobe Tank 坦克对战游戏画面" style="width:100%;display:block;border-radius:12px;" loading="lazy" />
           <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;border:3px solid rgba(255,255,255,0.8);">▶</span>
         </a>
         <p style="text-align:center;margin-top:10px;font-size:13px;color:var(--ink-mute);">点击图片观看实机演示</p>
@@ -665,7 +690,7 @@ body.bg-static .hero-bg canvas{display:none}
           <a href="https://kobetank.netlify.app/" target="_blank" rel="noopener" class="hobby-btn hobby-btn-primary">
             <span>开始游戏</span><span class="sp">// PLAY NOW →</span>
           </a>
-          <a href="assets/game-demo.mp4" class="js-vid hobby-btn hobby-btn-ghost">
+          <a href="game-demo.mp4" class="js-vid hobby-btn hobby-btn-ghost">
             <span>看演示</span><span class="sp">// WATCH →</span>
           </a>
         </div>
@@ -690,7 +715,11 @@ body.bg-static .hero-bg canvas{display:none}
       <button class="f" data-f="vision">VISION · 多模态</button>
       <button class="f" data-f="chengdian">橙点 · 训练师</button>
     </div>
-    <div id="certGrid" class="cert-grid rev"></div>
+    <div class="cert-carousel">
+      <button class="cert-nav prev" data-dir="-1" aria-label="上一张">‹</button>
+      <div id="certGrid" class="cert-scroll rev"></div>
+      <button class="cert-nav next" data-dir="1" aria-label="下一张">›</button>
+    </div>
   </div>
 </section>
 
@@ -782,19 +811,19 @@ const certs = [
     certId:'03170501015620260801025232',
     issueDate:'2026.07.31', expDate:'2028.07.31',
     tag:'HUAWEI · MICRO CERT', tier:'Professional',
-    image:'assets/certificates/worke7.jpg',
+    image:'worke7.jpg',
     desc:'华为官方 Micro Certification 人工智能初识认证。系统掌握 AI 基础概念、典型应用场景与华为 AI 技术栈框架，于 2026 年 7 月 31 日通过官方考核，有效期至 2028 年，证书编号 03170501015620260801025232。'
   },
-  { id:'c1', cat:'prompt', name:'Prompt工程师认证', issuer:'科大讯飞 · AI大学堂', certId:'XFPROMPT120767', issueDate:'2025.07.27', expDate:'2028.07.27', tag:'iFLYTEK · AUTH', tier:'Professional', image:'assets/certificates/worke2.jpg', desc:'通过科大讯飞 AI 大学堂 Prompt 工程师认证考核，系统掌握 Prompt 工程核心方法、结构化输出、Few-Shot、CoT、安全与对齐等关键能力，以优异成绩取得官方认证。' },
-  { id:'c2', cat:'ali', name:'大模型Clouder认证：基于通义灵码实现高效AI编码实践', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM07260702737964', issueDate:'2025.07', expDate:'2028.07.20', tag:'CLOUDER · PRO', tier:'Advanced', image:'assets/certificates/worke1.jpg', desc:'系统掌握基于通义灵码的 AI 辅助研发全流程：上下文管理、代码生成与优化、断言式开发、增量调试与文档化输出，完成官方认证考核并取得阿里云 Clouder 证书。' },
-  { id:'c3', cat:'ali', name:'大模型Clouder认证：基于百炼平台构建智能体应用', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM02260702738706', issueDate:'2025.07', expDate:'2028.07.21', tag:'CLOUDER · PRO', tier:'Advanced', image:'assets/certificates/worke3.jpg', desc:'围绕阿里云百炼平台，系统掌握行业智能体搭建全流程：Prompt 设计、RAG 知识库接入、工具调用编排、工作流插件、会话与调试，完成官方认证考核。' },
-  { id:'c4', cat:'vision', name:'人工智能Clouder认证：VISION人工智能设计（进阶）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM08260702739587', issueDate:'2025.07', expDate:'2028.07.22', tag:'VISION · ADVANCED', tier:'Advanced', image:'assets/certificates/worke4.jpg', desc:'阿里云 VISION 多模态方向进阶认证。系统掌握多模态理解、复杂图解读、场景识别、工程接入与性能优化，结合业务侧真实问题实现端到端可运行方案。' },
-  { id:'c5', cat:'vision', name:'人工智能Clouder认证：VISION人工智能设计（入门）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM06260702738690', issueDate:'2025.07', expDate:'2028.07.21', tag:'VISION · FOUNDATION', tier:'Certified', image:'assets/certificates/worke5.jpg', desc:'阿里云 VISION 多模态方向入门认证。掌握视觉与文本多模态融合基础、图像识别、常见任务接入方法与基础调优策略，为进阶方向打下扎实基础。' },
-  { id:'c6', cat:'ali', name:'大模型Clouder认证：Spring AI 应用开发（入门）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM09260702738713', issueDate:'2025.07', expDate:'2028.07.21', tag:'SPRING AI · FOUNDATION', tier:'Certified', image:'assets/certificates/worke6.jpg', desc:'阿里云 Spring AI 应用开发认证。掌握 Spring AI 框架基础、大模型集成开发、Prompt 模板设计与应用工程化落地，完成官方认证考核。' },
-  { id:'c7', cat:'chengdian', name:'人工智能训练师（初级）', issuer:'达摩院 · 机器智能技术事业部', certId:'AIT260718154740000136', issueDate:'2026.07.18', expDate:'2027.07.18', tag:'CHENGDIAN · TRAINER', tier:'Certified', image:'assets/certificates/worke11.jpg', desc:'达摩院智能客服「人工智能训练师」初级培训课程认证，系统掌握 AI 模型训练基础流程、数据标注、模型调优与基础部署能力，证书编号 AIT260718154740000136。' },
-  { id:'c8', cat:'chengdian', name:'人工智能训练师（高级）', issuer:'达摩院 · 机器智能技术事业部', certId:'AIT260718164447000124', issueDate:'2026.07.18', expDate:'2027.07.18', tag:'CHENGDIAN · TRAINER', tier:'Advanced', image:'assets/certificates/worke10.jpg', desc:'达摩院智能客服「人工智能训练师」高级培训课程认证，深入掌握 AI 模型训练全流程、高级调优策略、工程化部署与团队协作能力，证书编号 AIT260718164447000124。' },
-  { id:'c10', cat:'chengdian', name:'人工智能训练师（初级）', issuer:'橙点同学 · 阿里巴巴', certId:'CD-TRAINER-JUNIOR', issueDate:'2025', expDate:'长期有效', tag:'CHENGDIAN · TRAINER', tier:'Certified', image:'assets/certificates/worke8.jpg', desc:'阿里巴巴橙点同学人工智能训练师初级认证。系统掌握 AI 模型训练基础流程、数据标注、模型调优与基础部署能力。' },
-  { id:'c11', cat:'chengdian', name:'人工智能训练师（高级）', issuer:'橙点同学 · 阿里巴巴', certId:'CD-TRAINER-SENIOR', issueDate:'2025', expDate:'长期有效', tag:'CHENGDIAN · TRAINER', tier:'Advanced', image:'assets/certificates/worke9.jpg', desc:'阿里巴巴橙点同学人工智能训练师高级认证。深入掌握 AI 模型训练全流程、高级调优策略、工程化部署与团队协作能力。' }
+  { id:'c1', cat:'prompt', name:'Prompt工程师认证', issuer:'科大讯飞 · AI大学堂', certId:'XFPROMPT120767', issueDate:'2025.07.27', expDate:'2028.07.27', tag:'iFLYTEK · AUTH', tier:'Professional', image:'worke2.jpg', desc:'通过科大讯飞 AI 大学堂 Prompt 工程师认证考核，系统掌握 Prompt 工程核心方法、结构化输出、Few-Shot、CoT、安全与对齐等关键能力，以优异成绩取得官方认证。' },
+  { id:'c2', cat:'ali', name:'大模型Clouder认证：基于通义灵码实现高效AI编码实践', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM07260702737964', issueDate:'2025.07', expDate:'2028.07.20', tag:'CLOUDER · PRO', tier:'Advanced', image:'worke1.jpg', desc:'系统掌握基于通义灵码的 AI 辅助研发全流程：上下文管理、代码生成与优化、断言式开发、增量调试与文档化输出，完成官方认证考核并取得阿里云 Clouder 证书。' },
+  { id:'c3', cat:'ali', name:'大模型Clouder认证：基于百炼平台构建智能体应用', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM02260702738706', issueDate:'2025.07', expDate:'2028.07.21', tag:'CLOUDER · PRO', tier:'Advanced', image:'worke3.jpg', desc:'围绕阿里云百炼平台，系统掌握行业智能体搭建全流程：Prompt 设计、RAG 知识库接入、工具调用编排、工作流插件、会话与调试，完成官方认证考核。' },
+  { id:'c4', cat:'vision', name:'人工智能Clouder认证：VISION人工智能设计（进阶）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM08260702739587', issueDate:'2025.07', expDate:'2028.07.22', tag:'VISION · ADVANCED', tier:'Advanced', image:'worke4.jpg', desc:'阿里云 VISION 多模态方向进阶认证。系统掌握多模态理解、复杂图解读、场景识别、工程接入与性能优化，结合业务侧真实问题实现端到端可运行方案。' },
+  { id:'c5', cat:'vision', name:'人工智能Clouder认证：VISION人工智能设计（入门）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM06260702738690', issueDate:'2025.07', expDate:'2028.07.21', tag:'VISION · FOUNDATION', tier:'Certified', image:'worke5.jpg', desc:'阿里云 VISION 多模态方向入门认证。掌握视觉与文本多模态融合基础、图像识别、常见任务接入方法与基础调优策略，为进阶方向打下扎实基础。' },
+  { id:'c6', cat:'ali', name:'大模型Clouder认证：Spring AI 应用开发（入门）', issuer:'阿里云 · Alibaba Cloud', certId:'CLDM09260702738713', issueDate:'2025.07', expDate:'2028.07.21', tag:'SPRING AI · FOUNDATION', tier:'Certified', image:'worke6.jpg', desc:'阿里云 Spring AI 应用开发认证。掌握 Spring AI 框架基础、大模型集成开发、Prompt 模板设计与应用工程化落地，完成官方认证考核。' },
+  { id:'c7', cat:'chengdian', name:'人工智能训练师（初级）', issuer:'达摩院 · 机器智能技术事业部', certId:'AIT260718154740000136', issueDate:'2026.07.18', expDate:'2027.07.18', tag:'CHENGDIAN · TRAINER', tier:'Certified', image:'worke11.jpg', desc:'达摩院智能客服「人工智能训练师」初级培训课程认证，系统掌握 AI 模型训练基础流程、数据标注、模型调优与基础部署能力，证书编号 AIT260718154740000136。' },
+  { id:'c8', cat:'chengdian', name:'人工智能训练师（高级）', issuer:'达摩院 · 机器智能技术事业部', certId:'AIT260718164447000124', issueDate:'2026.07.18', expDate:'2027.07.18', tag:'CHENGDIAN · TRAINER', tier:'Advanced', image:'worke10.jpg', desc:'达摩院智能客服「人工智能训练师」高级培训课程认证，深入掌握 AI 模型训练全流程、高级调优策略、工程化部署与团队协作能力，证书编号 AIT260718164447000124。' },
+  { id:'c10', cat:'chengdian', name:'人工智能训练师（初级）', issuer:'橙点同学 · 阿里巴巴', certId:'CD-TRAINER-JUNIOR', issueDate:'2025', expDate:'长期有效', tag:'CHENGDIAN · TRAINER', tier:'Certified', image:'worke8.jpg', desc:'阿里巴巴橙点同学人工智能训练师初级认证。系统掌握 AI 模型训练基础流程、数据标注、模型调优与基础部署能力。' },
+  { id:'c11', cat:'chengdian', name:'人工智能训练师（高级）', issuer:'橙点同学 · 阿里巴巴', certId:'CD-TRAINER-SENIOR', issueDate:'2025', expDate:'长期有效', tag:'CHENGDIAN · TRAINER', tier:'Advanced', image:'worke9.jpg', desc:'阿里巴巴橙点同学人工智能训练师高级认证。深入掌握 AI 模型训练全流程、高级调优策略、工程化部署与团队协作能力。' }
 ];
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -805,14 +834,35 @@ function renderCerts(f='all'){
   const list = certs.filter(c=>f==='all'?true:c.cat===f);
   g.innerHTML = list.map((c,i)=>`
     <article class="cc rev" data-id="${c.id}" tabindex="0" style="transition-delay:${i*35}ms">
-      <div class="cc-img">
-        <img src="${c.image}" alt="${c.name}" loading="lazy" />
-        <div class="cc-mask"><span class="cc-mask-left">查看详情 →</span><span class="cc-tier">${c.tier}</span></div>
-      </div>
-      <div class="cc-body">
-        <h3 class="cc-name">${c.name}</h3>
-        <div class="cc-issuer">${c.issuer}</div>
-        <div class="cc-foot"><span class="cc-date">${c.issueDate} — ${c.expDate}</span><span class="cc-tag"># ${c.tag}</span></div>
+      <div class="cc-face">
+        <div class="cc-front">
+          <span class="cc-flip-hint">↻ 翻转</span>
+          <div class="cc-img">
+            <img src="${c.image}" alt="${c.name}" loading="lazy" />
+            <div class="cc-mask"><span class="cc-mask-left">翻转看详情</span><span class="cc-tier">${c.tier}</span></div>
+          </div>
+          <div class="cc-body">
+            <h3 class="cc-name">${c.name}</h3>
+            <div class="cc-issuer">${c.issuer}</div>
+            <div class="cc-foot"><span class="cc-date">${c.issueDate} — ${c.expDate}</span><span class="cc-tag"># ${c.tag}</span></div>
+          </div>
+        </div>
+        <div class="cc-back">
+          <span class="cc-flip-hint">↻ 返回</span>
+          <div>
+            <div class="cc-back-name">${c.name}</div>
+            <div class="cc-back-issuer">${c.issuer}</div>
+            <div class="cc-back-desc">${c.desc||''}</div>
+          </div>
+          <div>
+            <div class="cc-back-meta">
+              <b>编号：</b>${c.certId}<br>
+              <b>签发：</b>${c.issueDate} ｜ <b>到期：</b>${c.expDate}<br>
+              <b>标签：</b>${c.tag} ｜ <b>等级：</b>${c.tier}
+            </div>
+            <div class="cc-view-btn" data-id="${c.id}">查看证书原文 →</div>
+          </div>
+        </div>
       </div>
     </article>`).join('');
   $$('.cc',g).forEach(el=>{
@@ -821,15 +871,42 @@ function renderCerts(f='all'){
     if(img){
       const fb = ()=>{ if(img.dataset.fb!=='1'){img.dataset.fb='1';img.removeAttribute('loading');img.src=MOCK_IMG;} };
       img.addEventListener('error',fb,{once:true});
-      /* 兜底：图片若已失败（缓存竞态/路径问题），立即替换，不留空白 */
       if(img.complete && img.naturalWidth===0) fb();
-      /* 二次兜底：4 秒后仍未加载成功，取消懒加载并立即加载原图（复用缓存，不重复下载） */
       setTimeout(()=>{ if(img.dataset.fb!=='1' && !(img.complete && img.naturalWidth>0)){ const s=img.getAttribute('src').split('?')[0]; img.loading='eager'; img.src=s; } },4000);
     }
-    el.addEventListener('click',()=>openLb(el.dataset.id));
-    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ') {e.preventDefault();openLb(el.dataset.id);}});
+    /* 透镜倾斜：根据鼠标在卡片上的横向位置，让卡片沿 Y 轴旋转 */
+    el.addEventListener('mousemove',e=>{
+      if(el.classList.contains('flipped')) return;
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;          /* 0..1 */
+      const py = (e.clientY - r.top) / r.height;          /* 0..1 */
+      const ry = (px - 0.5) * 22;                         /* -11..11 deg */
+      const rx = (0.5 - py) * 10;                         /* -5..5 deg */
+      el.style.transform = `rotateY(${ry}deg) rotateX(${rx}deg) translateZ(20px)`;
+    });
+    el.addEventListener('mouseleave',()=>{
+      if(!el.classList.contains('flipped')) el.style.transform = '';
+    });
+    /* 点击翻面；背面的"查看原文"按钮打开大图 */
+    el.addEventListener('click',e=>{
+      if(e.target.closest('.cc-view-btn')){ e.stopPropagation(); openLb(el.dataset.id); return; }
+      el.classList.toggle('flipped');
+      if(el.classList.contains('flipped')) el.style.transform = '';
+    });
+    el.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.classList.toggle('flipped'); if(el.classList.contains('flipped')) el.style.transform=''; }
+    });
   });
 }
+/* 轮播左右导航 */
+$('#certificates').addEventListener('click',e=>{
+  const n = e.target.closest('.cert-nav');
+  if(!n) return;
+  const g = $('#certGrid');
+  const dir = parseInt(n.dataset.dir,10);
+  const step = g.querySelector('.cc')?.offsetWidth + 28 || 328;
+  g.scrollBy({ left: dir * step, behavior:'smooth' });
+});
 $('#certificates .filters').addEventListener('click',e=>{
   const b = e.target.closest('.f'); if(!b) return;
   $$('#certificates .f').forEach(x=>x.classList.remove('on'));
@@ -855,11 +932,11 @@ $('#lbcopy').addEventListener('click',async ()=>{
 });
 
 /* ===== 游戏演示视频弹层 ===== */
-const VIDSRC='assets/game-demo.mp4';
+const VIDSRC='game-demo.mp4';
 const GAME_URL='https://kobetank.netlify.app/';
 const _vd=$('#vdemo'), _vlb=$('#vlb');
 _vd.addEventListener('error',()=>{
-  /* 视频缺失（如部署版未打包大文件）时，退化为打开游戏网站 */
+  /* 视频缺失（部署版未打包大文件）时，退化为打开游戏网站 */
   if(_vlb.classList.contains('on')){ closeVid(); window.open(GAME_URL,'_blank','noopener'); }
 });
 function openVid(){
@@ -1031,7 +1108,7 @@ window.BG_DATA='data:image/jpeg;base64,/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHB
     }catch(e){ box.style.display='none'; }
   };
   img.onerror = function(){ box.style.display='none'; };
-  img.src = window.BG_DATA || 'assets/bg-wildflowers.jpg'; /* base64 内嵌图优先：file:// 双击直开也有波纹 */
+  img.src = window.BG_DATA || 'bg-wildflowers.jpg'; /* base64 内嵌图优先：file:// 双击直开也有波纹 */
 
   /* 波纹状态池 */
   var waves = [], data = new Float32Array(MAX_WAVES * 4), cur = 0;
