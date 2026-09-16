@@ -797,8 +797,11 @@ body.bg-static .hero-bg canvas{display:none}
 <div id="vlb" class="lb" role="dialog" aria-modal="true" aria-label="游戏演示视频">
   <div class="vlb-box">
     <button id="vlbx" class="vlb-x" aria-label="关闭">×</button>
-    <video id="vdemo" controls playsinline preload="none"></video>
-    <p class="vlb-cap">Kobe Tank 坦克对战 · 实机演示</p>
+    <div style="position:relative;border-radius:8px;overflow:hidden">
+      <video id="vdemo" controls playsinline preload="none" muted></video>
+      <div id="vload" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:15px;font-weight:700;letter-spacing:1px;background:rgba(0,0,0,.6);z-index:2;padding:20px">视频加载中…</div>
+    </div>
+    <p class="vlb-cap">Kobe Tank 坦克对战 · 实机演示（可点右下角喇叭开声音）</p>
   </div>
 </div>
 
@@ -934,19 +937,39 @@ $('#lbcopy').addEventListener('click',async ()=>{
 /* ===== 游戏演示视频弹层 ===== */
 const VIDSRC='tank-demo.mp4';
 const GAME_URL='https://kobetank.netlify.app/';
-const _vd=$('#vdemo'), _vlb=$('#vlb');
+const _vd=$('#vdemo'), _vlb=$('#vlb'), _vload=$('#vload');
+let _vTimer=null;
+/* 视频真正出错（文件不存在）时，提示并提供"去游戏"按钮，而不是静默跳转 */
 _vd.addEventListener('error',()=>{
-  /* 视频缺失（部署版未打包大文件）时，退化为打开游戏网站 */
-  if(_vlb.classList.contains('on')){ closeVid(); window.open(GAME_URL,'_blank','noopener'); }
+  if(_vload) _vload.style.display='none';
+  if(_vlb.classList.contains('on')){
+    _vload.style.display='flex';
+    _vload.innerHTML='视频暂时无法加载<br><a href="'+GAME_URL+'" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;margin-top:10px;display:inline-block;font-size:14px">直接去玩游戏 →</a>';
+  }
 });
+_vd.addEventListener('loadeddata',()=>{ if(_vload){_vload.style.display='none';} clearTimeout(_vTimer); });
+_vd.addEventListener('canplay',()=>{ if(_vload){_vload.style.display='none';} clearTimeout(_vTimer); });
 function openVid(){
+  if(_vload){ _vload.style.display='flex'; _vload.textContent='视频加载中…'; }
+  _vd.muted = true;                 /* 静音以确保浏览器允许自动播放 */
   _vd.src=VIDSRC; _vd.load();
   _vlb.classList.add('on'); document.body.style.overflow='hidden';
-  _vd.play().catch(()=>{});
+  const p = _vd.play();
+  if(p && p.catch) p.catch(()=>{ /* 自动播放被拦时不报错，用户可点播放键 */ });
+  /* 15 秒还没加载出画面，给出提示（不强制跳转） */
+  clearTimeout(_vTimer);
+  _vTimer = setTimeout(()=>{
+    if(_vload && _vd.readyState < 2){
+      _vload.style.display='flex';
+      _vload.innerHTML='视频加载较慢（网络原因），可<a href="'+VIDSRC+'" target="_blank" style="color:#fff;text-decoration:underline">点此直接打开</a>或稍后再试';
+    }
+  },15000);
 }
 function closeVid(){
   _vlb.classList.remove('on'); document.body.style.overflow='';
   try{ _vd.pause(); }catch(e){}
+  clearTimeout(_vTimer);
+  if(_vload) _vload.style.display='none';
   _vd.removeAttribute('src'); _vd.load();
 }
 $('#vlbx').addEventListener('click',closeVid);
